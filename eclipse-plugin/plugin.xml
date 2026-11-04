@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.views">
+      <category id="kr.egovclaude.eclipse.category" name="eGov Claude"/>
+      <view id="kr.egovclaude.eclipse.chatView" name="eGov Claude"
+            category="kr.egovclaude.eclipse.category"
+            class="kr.egovclaude.eclipse.ui.ChatView"
+            icon="icons/egovClaude.png" restorable="true"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.jst.j2ee.J2EEPerspective">
+         <view id="kr.egovclaude.eclipse.chatView" relative="org.eclipse.ui.editorss" relationship="right" ratio="0.65"/>
+         <viewShortcut id="kr.egovclaude.eclipse.chatView"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view id="kr.egovclaude.eclipse.chatView" relative="org.eclipse.ui.editorss" relationship="right" ratio="0.65"/>
+         <viewShortcut id="kr.egovclaude.eclipse.chatView"/>
+      </perspectiveExtension>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page id="kr.egovclaude.eclipse.preferences" name="eGov Claude"
+            class="kr.egovclaude.eclipse.prefs.EgovClaudePreferencePage"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <category id="kr.egovclaude.eclipse.commands" name="eGov Claude"/>
+      <command id="kr.egovclaude.eclipse.openChat" categoryId="kr.egovclaude.eclipse.commands" name="eGov Claude 채팅 열기"/>
+      <command id="kr.egovclaude.eclipse.crud" categoryId="kr.egovclaude.eclipse.commands" name="CRUD 생성..."/>
+      <command id="kr.egovclaude.eclipse.analyze" categoryId="kr.egovclaude.eclipse.commands" name="프로젝트 구조 분석"/>
+      <command id="kr.egovclaude.eclipse.explain" categoryId="kr.egovclaude.eclipse.commands" name="코드 설명"/>
+      <command id="kr.egovclaude.eclipse.modify" categoryId="kr.egovclaude.eclipse.commands" name="코드 수정 요청..."/>
+      <command id="kr.egovclaude.eclipse.unitTest" categoryId="kr.egovclaude.eclipse.commands" name="단위 테스트 생성"/>
+      <command id="kr.egovclaude.eclipse.review" categoryId="kr.egovclaude.eclipse.commands" name="표준·보안 점검"/>
+      <command id="kr.egovclaude.eclipse.reviewResources" categoryId="kr.egovclaude.eclipse.commands" name="eGov Claude: 표준·보안 점검"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.handlers">
+      <handler commandId="kr.egovclaude.eclipse.openChat" class="kr.egovclaude.eclipse.handlers.ProjectHandlers$OpenChat"/>
+      <handler commandId="kr.egovclaude.eclipse.crud" class="kr.egovclaude.eclipse.handlers.ProjectHandlers$GenerateCrud"/>
+      <handler commandId="kr.egovclaude.eclipse.analyze" class="kr.egovclaude.eclipse.handlers.ProjectHandlers$AnalyzeProject"/>
+      <handler commandId="kr.egovclaude.eclipse.reviewResources" class="kr.egovclaude.eclipse.handlers.ProjectHandlers$ReviewResources"/>
+      <handler commandId="kr.egovclaude.eclipse.explain" class="kr.egovclaude.eclipse.handlers.EditorHandlers$Explain"/>
+      <handler commandId="kr.egovclaude.eclipse.modify" class="kr.egovclaude.eclipse.handlers.EditorHandlers$Modify"/>
+      <handler commandId="kr.egovclaude.eclipse.unitTest" class="kr.egovclaude.eclipse.handlers.EditorHandlers$UnitTest"/>
+      <handler commandId="kr.egovclaude.eclipse.review" class="kr.egovclaude.eclipse.handlers.EditorHandlers$Review"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+      <!-- Ctrl+Alt+E: 채팅 열기 -->
+      <key commandId="kr.egovclaude.eclipse.openChat" sequence="M1+M3+E"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.menus">
+      <!-- 상단 메뉴 -->
+      <menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu id="kr.egovclaude.eclipse.mainMenu" label="eGov Claude">
+            <command commandId="kr.egovclaude.eclipse.openChat" icon="icons/egovClaude.png"/>
+            <separator name="egov.sep1" visible="true"/>
+            <command commandId="kr.egovclaude.eclipse.crud"/>
+            <command commandId="kr.egovclaude.eclipse.analyze"/>
+         </menu>
+      </menuContribution>
+
+      <!-- 모든 에디터(Java, XML, JSP, properties ...)의 우클릭 메뉴.
+           WTP 의 XML·JSP 편집기는 #AbstractTextEditorContext 를 쓰지 않으므로 popup.any 에 넣고 에디터일 때만 보인다. -->
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <menu id="kr.egovclaude.eclipse.editorMenu" label="eGov Claude" icon="icons/egovClaude.png">
+            <visibleWhen checkEnabled="false">
+               <with variable="activePart">
+                  <instanceof value="org.eclipse.ui.IEditorPart"/>
+               </with>
+            </visibleWhen>
+            <command commandId="kr.egovclaude.eclipse.explain"/>
+            <command commandId="kr.egovclaude.eclipse.modify"/>
+            <command commandId="kr.egovclaude.eclipse.unitTest"/>
+            <separator name="egov.sep2" visible="true"/>
+            <command commandId="kr.egovclaude.eclipse.review"/>
+            <command commandId="kr.egovclaude.eclipse.crud"/>
+         </menu>
+      </menuContribution>
+
+      <!-- Project Explorer / Package Explorer 우클릭 메뉴 -->
+      <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <command commandId="kr.egovclaude.eclipse.reviewResources" icon="icons/egovClaude.png"/>
+      </menuContribution>
+      <menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
+         <command commandId="kr.egovclaude.eclipse.reviewResources" icon="icons/egovClaude.png"/>
+      </menuContribution>
+   </extension>
+</plugin>

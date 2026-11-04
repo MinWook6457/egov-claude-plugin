@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title>eGov Claude</title>
+<style>/*CSS*/</style>
+</head>
+<body>
+<div id="toolbar" class="toolbar">
+  <select id="project" title="작업 프로젝트 (Claude 가 이 폴더에서 동작합니다)"></select>
+  <select id="mode" title="권한 모드">
+    <option value="default">승인 요청 (기본)</option>
+    <option value="acceptEdits">파일 수정 자동 승인</option>
+    <option value="plan">계획 모드 (읽기 전용)</option>
+    <option value="bypassPermissions">모두 허용 (주의)</option>
+  </select>
+  <span id="session" class="muted"></span>
+</div>
+
+<div id="log">
+  <div id="welcome" class="welcome">
+    <h2>eGov Claude</h2>
+    <p>전자정부 표준프레임워크 규칙을 아는 Claude Code 입니다. 위에서 고른 프로젝트 폴더에서 파일을 읽고, 고치고, 빌드를 돌릴 수 있습니다.</p>
+    <ul>
+      <li><b>CRUD 생성</b>: 테이블 정의를 넣으면 VO부터 JSP까지 eGov 구조로 만듭니다.</li>
+      <li><b>표준·보안 점검</b>: 열린 파일을 개발 표준과 보안약점 기준으로 검토합니다.</li>
+      <li>에디터에서 코드를 선택한 뒤 우클릭 &gt; <b>eGov Claude</b> 메뉴를 써도 됩니다.</li>
+      <li>위쪽 <b>+ 새 대화</b> 는 새 탭을, <b>세션 기록</b> 은 지난 대화를 엽니다.</li>
+    </ul>
+  </div>
+</div>
+
+<div id="composer" class="composer">
+  <div class="chips">
+    <button class="chip" data-quick="crud">CRUD 생성</button>
+    <button class="chip" data-quick="review">현재 파일 표준·보안 점검</button>
+    <button class="chip" data-quick="analyze">프로젝트 구조 분석</button>
+  </div>
+  <div class="input-box">
+    <textarea id="input" rows="3" placeholder="무엇을 도와드릴까요? (Enter 전송, Shift+Enter 줄바꿈)"></textarea>
+    <div class="input-bar">
+      <label class="muted"><input type="checkbox" id="attach"> 현재 파일·선택 영역 포함</label>
+      <span class="right">
+        <span id="busy" class="muted hidden">작업 중…</span>
+        <button id="btn-stop" class="ghost hidden">중지</button>
+        <button id="btn-send">보내기</button>
+      </span>
+    </div>
+  </div>
+</div>
+<script>/*JS*/</script>
+</body>
+</html>

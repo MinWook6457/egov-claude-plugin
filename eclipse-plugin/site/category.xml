@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/kr.egovclaude.eclipse.feature_@VERSION@.jar" id="kr.egovclaude.eclipse.feature" version="@VERSION@">
+      <category name="egov"/>
+   </feature>
+   <category-def name="egov" label="eGov Claude">
+      <description>전자정부 표준프레임워크용 Claude Code 플러그인</description>
+   </category-def>
+</site>

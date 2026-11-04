@@ -1,0 +1,185 @@
+/* IE11 엔진에서도 동작하도록 CSS 변수·flex 레이아웃 대신 자바에서 색을 채우고 절대 위치로 배치한다. */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; overflow: hidden; }
+body {
+  background: {{bg}}; color: {{fg}};
+  font-family: {{font}}; font-size: {{fontSize}}; line-height: 1.6;
+}
+button, select, textarea, input { font-family: inherit; font-size: inherit; color: {{fg}}; }
+.muted { color: {{muted}}; }
+.hidden { display: none !important; }
+.right { float: right; }
+
+.toolbar {
+  position: absolute; top: 0; left: 0; right: 0; height: 34px;
+  padding: 4px 8px; border-bottom: 1px solid {{border}}; white-space: nowrap; overflow: hidden;
+}
+.toolbar select {
+  background: {{inputBg}}; border: 1px solid {{border}}; padding: 2px 4px; max-width: 42%;
+}
+#session { font-size: 0.9em; margin-left: 6px; }
+
+button {
+  background: {{accent}}; color: #fff; border: 0; border-radius: 3px;
+  padding: 3px 12px; cursor: pointer;
+}
+button.ghost { background: transparent; color: {{fg}}; border: 1px solid {{border}}; }
+button.danger { background: transparent; color: {{delFg}}; border: 1px solid {{delFg}}; }
+button.mini { padding: 0 8px; font-size: 0.85em; line-height: 1.6; }
+
+#log {
+  position: absolute; top: 34px; left: 0; right: 0; bottom: 130px;
+  overflow-y: auto; overflow-x: hidden; padding: 12px 14px 4px;
+}
+
+.welcome h2 { margin: 4px 0 8px; font-size: 1.25em; }
+.welcome p, .welcome li { color: {{muted}}; }
+.welcome ul { padding-left: 18px; }
+
+/* ---------------------------------------------------------------- 메시지 */
+.msg { margin: 0 0 14px; }
+.msg.user {
+  background: {{userBg}}; border-radius: 6px; padding: 8px 12px;
+  white-space: pre-wrap; word-wrap: break-word;
+}
+.msg.user pre { white-space: pre-wrap; max-height: 240px; overflow: auto; }
+.msg.assistant { word-wrap: break-word; }
+.msg.assistant p { margin: 0 0 10px; }
+.msg.assistant h1, .msg.assistant h2, .msg.assistant h3, .msg.assistant h4 {
+  margin: 16px 0 8px; line-height: 1.35; color: {{strong}};
+}
+.msg.assistant h1 { font-size: 1.3em; }
+.msg.assistant h2 { font-size: 1.18em; border-bottom: 1px solid {{border}}; padding-bottom: 3px; }
+.msg.assistant h3 { font-size: 1.06em; }
+.msg.assistant ul, .msg.assistant ol { margin: 4px 0 10px; padding-left: 22px; }
+.msg.assistant li { margin: 3px 0; }
+.msg.assistant hr { border: 0; border-top: 1px solid {{border}}; margin: 12px 0; }
+strong, b { color: {{strong}}; font-weight: bold; }
+blockquote {
+  margin: 8px 0; padding: 6px 12px; border-left: 3px solid {{accent}};
+  background: {{codeBg}}; color: {{fg}};
+}
+.callout { background: {{warnBg}}; border-left: 3px solid #d4a72c; padding: 6px 10px; border-radius: 3px; }
+
+/* 인라인 코드는 파일명·쿼리ID 등이 한눈에 보이도록 칩 모양으로 */
+code, pre { font-family: {{mono}}; font-size: 0.95em; }
+code {
+  background: {{chipBg}}; color: {{chipFg}}; border: 1px solid {{chipBorder}};
+  padding: 0 5px; border-radius: 3px;
+}
+pre code { background: transparent; color: {{fg}}; border: 0; padding: 0; }
+code.path { cursor: pointer; }
+code.path:hover { text-decoration: underline; }
+pre {
+  background: {{codeBg}}; border: 1px solid {{border}}; border-radius: 6px;
+  padding: 10px 12px; overflow-x: auto; margin: 6px 0 12px; line-height: 1.45;
+}
+a { color: {{accent}}; }
+/* 넓은 표는 대화 영역 전체가 아니라 표 안에서만 가로로 스크롤한다. 한글은 단어 단위로 줄을 바꾼다. */
+.table-wrap { overflow-x: auto; margin: 8px 0 12px; }
+table { border-collapse: collapse; }
+th, td {
+  border: 1px solid {{border}}; padding: 4px 8px; text-align: left; vertical-align: top;
+  word-break: keep-all; word-wrap: break-word;
+}
+th { white-space: nowrap; }
+th { background: {{codeBg}}; color: {{strong}}; }
+
+/* 코드 색 구분 */
+.hl-k { color: {{kw}}; font-weight: bold; }
+.hl-s { color: {{str}}; }
+.hl-d { color: {{num}}; }
+.hl-c { color: {{comment}}; font-style: italic; }
+.hl-t { color: {{tag}}; }
+.hl-a { color: {{attr}}; }
+.hl-n { color: {{anno}}; }
+.hl-warn { background: {{delBg}}; color: {{delFg}}; font-weight: bold; border-bottom: 1px dashed {{delFg}}; }
+
+.toggle { color: {{muted}}; cursor: pointer; font-size: 0.9em; margin-top: 4px; }
+.collapsed .fold { display: none; }
+
+/* ---------------------------------------------------------------- 도구 카드 */
+.tool { border: 1px solid {{border}}; border-radius: 6px; margin: 0 0 10px; font-size: 0.95em; overflow: hidden; }
+.tool .head {
+  padding: 4px 10px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  background: {{codeBg}};
+}
+.tool.collapsed .head { background: transparent; }
+.tool .name { font-weight: bold; margin-right: 8px; }
+.tool .sum { font-family: {{mono}}; color: {{muted}}; }
+.tool .sum.link { color: {{accent}}; cursor: pointer; }
+.tool .sum.file { font-weight: bold; }
+.tool .state { float: right; margin-left: 8px; }
+.tool .state.ok { color: {{addFg}}; }
+.tool .state.err { color: {{delFg}}; }
+.tool .head button { float: right; margin-left: 8px; }
+.tool .fold { padding: 0 0 2px; }
+.tool .fold > pre { margin: 6px 10px 8px; max-height: 320px; overflow: auto; white-space: pre; }
+.tool .label { color: {{muted}}; font-size: 0.9em; margin: 6px 10px 0; }
+.tool.pending { border-color: {{accent}}; border-width: 2px; }
+.tool.denied { opacity: 0.6; }
+
+.badge {
+  display: inline-block; font-size: 0.8em; padding: 0 6px; margin-right: 6px; border-radius: 3px;
+  line-height: 1.5; vertical-align: 1px;
+}
+.badge.mod { background: {{chipBg}}; color: {{chipFg}}; border: 1px solid {{chipBorder}}; }
+.badge.new { background: {{addBg}}; color: {{addFg}}; border: 1px solid {{addMark}}; }
+.counts { margin-left: 8px; font-family: {{mono}}; font-size: 0.9em; }
+.counts .plus { color: {{addFg}}; margin-right: 6px; font-weight: bold; }
+.counts .minus { color: {{delFg}}; font-weight: bold; }
+
+/* 줄 번호가 붙은 diff */
+.diff-wrap { max-height: 420px; overflow: auto; border-top: 1px solid {{border}}; }
+table.diff { width: 100%; border-collapse: collapse; margin: 0; font-family: {{mono}}; font-size: 0.92em; line-height: 1.45; }
+table.diff td { border: 0; padding: 0 6px; vertical-align: top; white-space: pre; }
+table.diff td.ln { width: 1%; text-align: right; color: {{muted}}; padding: 0 6px; }
+table.diff td.mk { width: 1%; text-align: center; font-weight: bold; padding: 0 2px; }
+table.diff tr.add td { background: {{addBg}}; }
+table.diff tr.add td.mk, table.diff tr.add td.ln { background: {{addMark}}; color: {{addFg}}; }
+table.diff tr.del td { background: {{delBg}}; }
+table.diff tr.del td.mk, table.diff tr.del td.ln { background: {{delMark}}; color: {{delFg}}; }
+table.diff tr.gap td { color: {{muted}}; background: {{codeBg}}; text-align: center; font-size: 0.85em; padding: 1px; }
+
+.perm-actions { padding: 8px 10px; border-top: 1px solid {{border}}; background: {{userBg}}; }
+.perm-actions button { margin-right: 6px; }
+.perm-q { font-weight: bold; margin-right: 10px; color: {{strong}}; }
+.perm-done { padding: 4px 10px; border-top: 1px solid {{border}}; font-size: 0.9em; }
+.perm-done.ok { color: {{addFg}}; }
+.perm-done.err { color: {{delFg}}; }
+
+/* ---------------------------------------------------------------- 변경 요약 */
+.changes { border: 1px solid {{border}}; border-radius: 6px; margin: 4px 0 8px; }
+.changes-head { padding: 6px 10px; background: {{codeBg}}; border-bottom: 1px solid {{border}}; }
+.changes-head .title { font-weight: bold; color: {{strong}}; }
+.change-row { padding: 4px 10px; border-bottom: 1px solid {{border}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.change-row:last-child { border-bottom: 0; }
+.change-row .cname { font-family: {{mono}}; font-weight: bold; color: {{accent}}; cursor: pointer; }
+.change-row .cname:hover { text-decoration: underline; }
+.change-row .cdir { color: {{muted}}; font-size: 0.88em; margin-left: 8px; }
+.change-row button { float: right; }
+
+.notice { margin: 0 0 12px; padding: 6px 10px; border-radius: 4px; border: 1px solid {{border}}; white-space: pre-wrap; }
+.notice.info { color: {{muted}}; }
+.notice.error { border-color: {{delFg}}; color: {{delFg}}; background: {{delBg}}; }
+.result { margin: 0 0 16px; font-size: 0.85em; color: {{muted}}; }
+.result.error { color: {{delFg}}; }
+
+/* ---------------------------------------------------------------- 입력창 */
+.composer {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  border-top: 1px solid {{border}}; padding: 6px 8px 8px; background: {{bg}};
+}
+.chips { margin-bottom: 6px; }
+.chip {
+  background: transparent; color: {{fg}}; border: 1px solid {{border}};
+  border-radius: 10px; padding: 1px 10px; font-size: 0.9em; margin: 0 4px 2px 0;
+}
+.input-box { border: 1px solid {{border}}; border-radius: 4px; background: {{inputBg}}; }
+#input {
+  display: block; width: 100%; resize: none; border: 0; outline: 0; background: transparent;
+  padding: 6px 8px; height: 58px; overflow-y: auto;
+}
+.input-bar { padding: 3px 6px 5px; font-size: 0.9em; height: 32px; }
+.input-bar label { cursor: pointer; line-height: 24px; }
+#busy { margin-right: 6px; }
