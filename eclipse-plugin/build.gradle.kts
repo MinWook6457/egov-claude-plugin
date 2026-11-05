@@ -135,6 +135,8 @@ tasks.register<Sync>("publishSite") {
     description = "업데이트 사이트를 저장소의 docs/update-site 로 복사합니다. 커밋·푸시하면 GitHub Pages 로 배포됩니다."
     dependsOn(updateSite)
     from(siteDir)
+    // 브라우저로 이 주소를 열면 GitHub Pages 가 404 를 내므로 안내 페이지를 함께 둔다. Eclipse 는 이 파일을 쓰지 않는다.
+    from("site/index.html")
     into(rootDir.resolve("../docs/update-site"))
 }
 
